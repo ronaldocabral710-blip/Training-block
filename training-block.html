@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4-Week Build — Training Block</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d1015;
+    --panel:#151a21;
+    --panel-2:#1b212a;
+    --line:#2a313c;
+    --chalk:#e9ecef;
+    --dim:#8b96a3;
+    --z1:#5c7a99;
+    --z2:#4fa3e3;
+    --z3:#3fbf88;
+    --z4:#f2b134;
+    --z5b:#f2703a;
+    --z5c:#ef4444;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--z5b); color:#0d1015;}
+  .wrap{max-width:1040px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:64px 0 40px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--dim);
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(42px, 8vw, 84px);
+    line-height:0.95;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+  }
+  h1 .accent{color:var(--z5b);}
+  .hero-sub{
+    margin-top:18px;
+    max-width:560px;
+    color:var(--dim);
+    font-size:16px;
+  }
+
+  /* mileage progression bars */
+  .mileage-track{
+    margin-top:44px;
+    display:flex;
+    align-items:flex-end;
+    gap:18px;
+    height:150px;
+  }
+  .mstep{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    flex:1;
+  }
+  .mbar-shell{
+    width:100%;
+    max-width:64px;
+    height:110px;
+    display:flex;
+    align-items:flex-end;
+    background:var(--panel);
+    border:1px solid var(--line);
+  }
+  .mbar{
+    width:100%;
+    background:linear-gradient(180deg, var(--z5b), var(--z2));
+  }
+  .mlabel{font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600;}
+  .mweek{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:.1em;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  .sec-head{margin-bottom:32px;}
+  .sec-eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--z2);
+    margin-bottom:8px;
+  }
+  h2{
+    font-family:'Oswald',sans-serif;
+    font-size:clamp(26px,4vw,36px);
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+  }
+  .sec-note{color:var(--dim); font-size:14px; margin-top:10px; max-width:640px;}
+
+  /* ---------- ZONE LADDER (signature element) ---------- */
+  .ladder{
+    display:flex;
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .rung{
+    flex:1;
+    padding:16px 14px;
+    border-right:1px solid var(--line);
+    position:relative;
+  }
+  .rung:last-child{border-right:none;}
+  .rung .bar{height:5px; width:100%; margin-bottom:12px;}
+  .rung .zn{font-family:'Oswald',sans-serif; font-size:15px; font-weight:600; text-transform:uppercase;}
+  .rung .bpm{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--dim); margin-top:4px;}
+  .rung.z1 .bar{background:var(--z1);} .rung.z2 .bar{background:var(--z2);}
+  .rung.z3 .bar{background:var(--z3);} .rung.z4 .bar{background:var(--z4);}
+  .rung.z5b .bar{background:var(--z5b);} .rung.z5c .bar{background:var(--z5c);}
+
+  /* ---------- ZONE REFERENCE TABLE ---------- */
+  table{width:100%; border-collapse:collapse;}
+  .ref-table td, .ref-table th{
+    padding:14px 12px;
+    text-align:left;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .ref-table th{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--dim);
+    font-weight:500;
+  }
+  .ref-table td.mono, .ref-table th.mono{font-family:'JetBrains Mono',monospace;}
+  .zone-chip{
+    display:inline-block;
+    width:10px; height:10px;
+    margin-right:8px;
+    vertical-align:middle;
+  }
+  tr.z1 .zone-chip{background:var(--z1);} tr.z2 .zone-chip{background:var(--z2);}
+  tr.z3 .zone-chip{background:var(--z3);} tr.z4 .zone-chip{background:var(--z4);}
+  tr.z5a .zone-chip{background:var(--z4);} tr.z5b .zone-chip{background:var(--z5b);}
+  tr.z5c .zone-chip{background:var(--z5c);}
+
+  /* ---------- WORKOUT LIBRARY ---------- */
+  .lib-group{margin-bottom:44px;}
+  .lib-group:last-child{margin-bottom:0;}
+  .lib-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    border-left:3px solid var(--dim);
+    padding-left:16px;
+    margin-bottom:16px;
+  }
+  .lib-head h3{
+    font-family:'Oswald',sans-serif;
+    font-size:20px;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+  }
+  .lib-targets{font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--dim);}
+  .lib-group.z1 .lib-head{border-color:var(--z1);}
+  .lib-group.z2 .lib-head{border-color:var(--z2);}
+  .lib-group.z3 .lib-head{border-color:var(--z3);}
+  .lib-group.z4 .lib-head{border-color:var(--z4);}
+  .lib-group.z5b .lib-head{border-color:var(--z5b);}
+
+  .workout-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media(max-width:800px){.workout-cards{grid-template-columns:1fr;}}
+  .wcard{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:18px;
+  }
+  .wcard .wnum{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--dim);
+    margin-bottom:8px;
+  }
+  .wcard .wname{
+    font-family:'Oswald',sans-serif;
+    font-size:16px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .wcard .wdesc{font-size:13.5px; color:#c4cad2; line-height:1.55;}
+
+  /* ---------- WEEK STRUCTURE TEMPLATE ---------- */
+  .struct-table td, .struct-table th{
+    padding:12px; border-bottom:1px solid var(--line); font-size:14px; text-align:left;
+  }
+  .struct-table th{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--dim);}
+  .daytag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border:1px solid var(--line);
+    color:var(--dim);
+  }
+
+  /* ---------- WEEK BLOCKS ---------- */
+  .week-block{margin-bottom:40px;}
+  .week-block:last-child{margin-bottom:0;}
+  .week-title-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:14px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+  .week-title{font-family:'Oswald',sans-serif; font-size:22px; text-transform:uppercase;}
+  .week-total{font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--z2);}
+  .wk-table td, .wk-table th{padding:12px 10px; border-bottom:1px solid var(--line); font-size:14px;}
+  .wk-table th{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--dim); text-align:left;}
+  .wk-table td.mi{font-family:'JetBrains Mono',monospace; text-align:right; color:var(--dim);}
+  .wk-table td.day{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dim); white-space:nowrap;}
+  tr.rest td{color:var(--dim); font-style:italic;}
+  tr.rest td.mi{color:var(--dim);}
+
+  /* ---------- FOOTER NOTES ---------- */
+  footer{padding:56px 0 0;}
+  .note{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--z4);
+    padding:20px 22px;
+    margin-bottom:14px;
+    font-size:14px;
+    color:#c4cad2;
+  }
+  .note b{color:var(--chalk);}
+
+  @media(max-width:640px){
+    .ladder{flex-wrap:wrap;}
+    .rung{flex:1 1 50%; border-bottom:1px solid var(--line);}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Training Block · Weeks 1–4</div>
+    <h1>32 <span class="accent">→</span> 45<br>Mile Build</h1>
+    <p class="hero-sub">Four weeks, same structure every week — easy, threshold, aerobic, VO2max, rest, tempo, long run — with volume added gradually through the long run and easy days. Zones anchored to LTHR 183 bpm / HRmax 202 bpm.</p>
+
+    <div class="mileage-track">
+      <div class="mstep">
+        <div class="mbar-shell"><div class="mbar" style="height:71%;"></div></div>
+        <div class="mlabel">32 mi</div>
+        <div class="mweek">Week 1</div>
+      </div>
+      <div class="mstep">
+        <div class="mbar-shell"><div class="mbar" style="height:82%;"></div></div>
+        <div class="mlabel">37 mi</div>
+        <div class="mweek">Week 2</div>
+      </div>
+      <div class="mstep">
+        <div class="mbar-shell"><div class="mbar" style="height:90%;"></div></div>
+        <div class="mlabel">40.5 mi</div>
+        <div class="mweek">Week 3</div>
+      </div>
+      <div class="mstep">
+        <div class="mbar-shell"><div class="mbar" style="height:100%;"></div></div>
+        <div class="mlabel">44.8 mi</div>
+        <div class="mweek">Week 4</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ZONE LADDER -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Reference</div>
+      <h2>Heart Rate Zones</h2>
+      <p class="sec-note">Built off your actual data: HRmax 202 bpm (confirmed across four hard finishing efforts), LTHR 183 bpm (Garmin estimate, supported by five logged runs).</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung z1"><div class="bar"></div><div class="zn">Z1 Recovery</div><div class="bpm">&lt;156 bpm</div></div>
+      <div class="rung z2"><div class="bar"></div><div class="zn">Z2 Aerobic</div><div class="bpm">156–163</div></div>
+      <div class="rung z3"><div class="bar"></div><div class="zn">Z3 Tempo</div><div class="bpm">164–172</div></div>
+      <div class="rung z4"><div class="bar"></div><div class="zn">Z4 Sub-Th.</div><div class="bpm">173–181</div></div>
+      <div class="rung z4"><div class="bar"></div><div class="zn">Z5a Thresh.</div><div class="bpm">182–187</div></div>
+      <div class="rung z5b"><div class="bar"></div><div class="zn">Z5b VO2max</div><div class="bpm">188–194</div></div>
+      <div class="rung z5c"><div class="bar"></div><div class="zn">Z5c Max</div><div class="bpm">195–202</div></div>
+    </div>
+
+    <table class="ref-table" style="margin-top:22px;">
+      <thead>
+        <tr>
+          <th>Zone</th><th class="mono">% LTHR</th><th class="mono">BPM</th><th class="mono">Pace /mi</th><th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="z1"><td><span class="zone-chip"></span>Recovery</td><td class="mono">&lt;85%</td><td class="mono">&lt;156</td><td class="mono">9:00–9:45</td><td>Easy days, recovery jogs</td></tr>
+        <tr class="z2"><td><span class="zone-chip"></span>Aerobic</td><td class="mono">85–89%</td><td class="mono">156–163</td><td class="mono">8:15–8:45</td><td>Base building, long runs</td></tr>
+        <tr class="z3"><td><span class="zone-chip"></span>Tempo</td><td class="mono">90–94%</td><td class="mono">164–172</td><td class="mono">7:10–7:30</td><td>Steady, moderately hard efforts</td></tr>
+        <tr class="z4"><td><span class="zone-chip"></span>Sub-threshold</td><td class="mono">95–99%</td><td class="mono">173–181</td><td class="mono">6:45–7:00</td><td>Threshold intervals</td></tr>
+        <tr class="z5a"><td><span class="zone-chip"></span>Threshold</td><td class="mono">100–102%</td><td class="mono">182–187</td><td class="mono">6:45–7:00</td><td>Race-pace-ish, LT efforts</td></tr>
+        <tr class="z5b"><td><span class="zone-chip"></span>VO2max</td><td class="mono">103–106%</td><td class="mono">188–194</td><td class="mono">6:00–6:15</td><td>Hard intervals, 3–8 min reps</td></tr>
+        <tr class="z5c"><td><span class="zone-chip"></span>Max</td><td class="mono">&gt;106%</td><td class="mono">195–202</td><td class="mono">&lt;6:00</td><td>All-out finishes, short sprints</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- WORKOUT LIBRARY -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Library</div>
+      <h2>Workouts by Type</h2>
+      <p class="sec-note">Three options per run type. HR and pace targets apply to the working portion — warm-ups and cooldowns are always easy (Z1).</p>
+    </div>
+
+    <div class="lib-group z1">
+      <div class="lib-head">
+        <h3>Easy / Recovery</h3>
+        <div class="lib-targets">&lt;156 bpm · 9:00–9:45/mi</div>
+      </div>
+      <div class="workout-cards">
+        <div class="wcard"><div class="wnum">01</div><div class="wname">Standard Recovery</div><div class="wdesc">30 min easy, flat route. Keep HR under 156 — don't chase pace.</div></div>
+        <div class="wcard"><div class="wnum">02</div><div class="wname">Shakeout</div><div class="wdesc">20 min very easy the day after a hard session. Walk breaks fine if HR creeps up.</div></div>
+        <div class="wcard"><div class="wnum">03</div><div class="wname">Long Easy</div><div class="wdesc">60–75 min at easy pace. Slight HR drift late in the run is expected and fine.</div></div>
+      </div>
+    </div>
+
+    <div class="lib-group z2">
+      <div class="lib-head">
+        <h3>Aerobic / Base</h3>
+        <div class="lib-targets">156–163 bpm · 8:15–8:45/mi</div>
+      </div>
+      <div class="workout-cards">
+        <div class="wcard"><div class="wnum">01</div><div class="wname">Steady Base Run</div><div class="wdesc">45 min continuous. Hold pace and HR steady throughout — no surging.</div></div>
+        <div class="wcard"><div class="wnum">02</div><div class="wname">Progressive Aerobic</div><div class="wdesc">50 min: first 30 min easy (Z1), last 20 min nudge into Z2.</div></div>
+        <div class="wcard"><div class="wnum">03</div><div class="wname">Long Aerobic</div><div class="wdesc">70–90 min, majority Z1, final 15–20 min controlled into Z2.</div></div>
+      </div>
+    </div>
+
+    <div class="lib-group z3">
+      <div class="lib-head">
+        <h3>Tempo</h3>
+        <div class="lib-targets">164–172 bpm · 7:10–7:30/mi</div>
+      </div>
+      <div class="workout-cards">
+        <div class="wcard"><div class="wnum">01</div><div class="wname">Classic Tempo</div><div class="wdesc">15 min WU → 20 min continuous @ tempo pace → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">02</div><div class="wname">Broken Tempo</div><div class="wdesc">15 min WU → 3×8 min @ tempo pace, 90 sec jog rest → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">03</div><div class="wname">Progression Tempo</div><div class="wdesc">20 min WU → 15 min tempo → last 5 min drift toward threshold pace → 10 min CD.</div></div>
+      </div>
+    </div>
+
+    <div class="lib-group z4">
+      <div class="lib-head">
+        <h3>Threshold</h3>
+        <div class="lib-targets">173–187 bpm · 6:45–7:00/mi</div>
+      </div>
+      <div class="workout-cards">
+        <div class="wcard"><div class="wnum">01</div><div class="wname">Cruise Intervals</div><div class="wdesc">15 min WU → 4×6 min @ threshold pace, 90 sec jog → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">02</div><div class="wname">Long Threshold</div><div class="wdesc">15 min WU → 2×12 min @ threshold pace, 3 min jog → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">03</div><div class="wname">Extended Single</div><div class="wdesc">20 min WU → 20 min continuous @ threshold pace → 10 min CD. Hold HR near top of Z4.</div></div>
+      </div>
+    </div>
+
+    <div class="lib-group z5b">
+      <div class="lib-head">
+        <h3>VO2max</h3>
+        <div class="lib-targets">188–194 bpm · 6:00–6:15/mi</div>
+      </div>
+      <div class="workout-cards">
+        <div class="wcard"><div class="wnum">01</div><div class="wname">5×1000m</div><div class="wdesc">15 min WU → 5×1000m @ ~6:00/mi, 2–3 min jog recovery → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">02</div><div class="wname">Short Sharp</div><div class="wdesc">15 min WU → 8×400m @ mile-ish pace, 90 sec jog → 10 min CD.</div></div>
+        <div class="wcard"><div class="wnum">03</div><div class="wname">Longer Intervals</div><div class="wdesc">15 min WU → 4×4 min @ ~6:10/mi, 3 min jog → 10 min CD.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEKLY STRUCTURE TEMPLATE -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Template</div>
+      <h2>Weekly Structure</h2>
+      <p class="sec-note">Same skeleton every week of the block. Hard days are never back-to-back; Friday is always full rest.</p>
+    </div>
+    <table class="struct-table">
+      <thead><tr><th>Day</th><th>Type</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><span class="daytag">Mon</span></td><td>Easy / Recovery</td><td>Shakeout from the weekend, keeps legs moving</td></tr>
+        <tr><td><span class="daytag">Tue</span></td><td>Threshold</td><td>Primary quality session #1</td></tr>
+        <tr><td><span class="daytag">Wed</span></td><td>Aerobic / Base</td><td>Recovery between hard days, builds base</td></tr>
+        <tr><td><span class="daytag">Thu</span></td><td>VO2max</td><td>Primary quality session #2</td></tr>
+        <tr><td><span class="daytag">Fri</span></td><td>Full Rest</td><td>No running</td></tr>
+        <tr><td><span class="daytag">Sat</span></td><td>Tempo</td><td>Primary quality session #3</td></tr>
+        <tr><td><span class="daytag">Sun</span></td><td>Long Run</td><td>Aerobic durability, biggest volume day</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- WEEK 1 -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Block · Week 1 of 4</div>
+      <h2>Build-In Week</h2>
+    </div>
+    <div class="week-block">
+      <div class="week-title-row"><div class="week-title">Week 1</div><div class="week-total">32.0 mi total</div></div>
+      <table class="wk-table">
+        <thead><tr><th>Day</th><th>Session</th><th style="text-align:right;">Miles</th></tr></thead>
+        <tbody>
+          <tr><td class="day">Mon</td><td>25 min easy</td><td class="mi">2.8</td></tr>
+          <tr><td class="day">Tue</td><td>15min WU → 3×6min threshold, 90s jog → 10min CD</td><td class="mi">5.8</td></tr>
+          <tr><td class="day">Wed</td><td>35 min aerobic</td><td class="mi">4.1</td></tr>
+          <tr><td class="day">Thu</td><td>15min WU → 4×1000m VO2max, 2.5min jog → 10min CD</td><td class="mi">6.1</td></tr>
+          <tr class="rest"><td class="day">Fri</td><td>Full rest</td><td class="mi">0</td></tr>
+          <tr><td class="day">Sat</td><td>15min WU → 15min tempo → 10min CD</td><td class="mi">4.8</td></tr>
+          <tr><td class="day">Sun</td><td>65 min long run (Z1→Z2)</td><td class="mi">8.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WEEK 2 -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Block · Week 2 of 4</div>
+      <h2>Base Week</h2>
+    </div>
+    <div class="week-block">
+      <div class="week-title-row"><div class="week-title">Week 2</div><div class="week-total">37.0 mi total</div></div>
+      <table class="wk-table">
+        <thead><tr><th>Day</th><th>Session</th><th style="text-align:right;">Miles</th></tr></thead>
+        <tbody>
+          <tr><td class="day">Mon</td><td>30 min easy</td><td class="mi">3.3</td></tr>
+          <tr><td class="day">Tue</td><td>15min WU → 4×6min threshold, 90s jog → 10min CD</td><td class="mi">6.8</td></tr>
+          <tr><td class="day">Wed</td><td>45 min aerobic</td><td class="mi">5.3</td></tr>
+          <tr><td class="day">Thu</td><td>15min WU → 5×1000m VO2max, 2.5min jog → 10min CD</td><td class="mi">7.0</td></tr>
+          <tr class="rest"><td class="day">Fri</td><td>Full rest</td><td class="mi">0</td></tr>
+          <tr><td class="day">Sat</td><td>15min WU → 20min tempo → 10min CD</td><td class="mi">5.5</td></tr>
+          <tr><td class="day">Sun</td><td>80 min long run (Z1→Z2)</td><td class="mi">9.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WEEK 3 -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Block · Week 3 of 4</div>
+      <h2>Expansion Week</h2>
+    </div>
+    <div class="week-block">
+      <div class="week-title-row"><div class="week-title">Week 3</div><div class="week-total">40.5 mi total</div></div>
+      <table class="wk-table">
+        <thead><tr><th>Day</th><th>Session</th><th style="text-align:right;">Miles</th></tr></thead>
+        <tbody>
+          <tr><td class="day">Mon</td><td>35 min easy</td><td class="mi">3.9</td></tr>
+          <tr><td class="day">Tue</td><td>15min WU → 4×7min threshold, 90s jog → 10min CD</td><td class="mi">7.4</td></tr>
+          <tr><td class="day">Wed</td><td>50 min aerobic</td><td class="mi">5.9</td></tr>
+          <tr><td class="day">Thu</td><td>15min WU → 6×1000m VO2max, 2.5min jog → 10min CD</td><td class="mi">7.9</td></tr>
+          <tr class="rest"><td class="day">Fri</td><td>Full rest</td><td class="mi">0</td></tr>
+          <tr><td class="day">Sat</td><td>15min WU → 22min tempo → 10min CD</td><td class="mi">5.8</td></tr>
+          <tr><td class="day">Sun</td><td>85 min long run (Z1→Z2)</td><td class="mi">9.7</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WEEK 4 -->
+  <section>
+    <div class="sec-head">
+      <div class="sec-eyebrow">Block · Week 4 of 4</div>
+      <h2>Peak Week</h2>
+    </div>
+    <div class="week-block">
+      <div class="week-title-row"><div class="week-title">Week 4</div><div class="week-total">44.8 mi total</div></div>
+      <table class="wk-table">
+        <thead><tr><th>Day</th><th>Session</th><th style="text-align:right;">Miles</th></tr></thead>
+        <tbody>
+          <tr><td class="day">Mon</td><td>45 min easy</td><td class="mi">5.0</td></tr>
+          <tr><td class="day">Tue</td><td>15min WU → 5×6min threshold, 90s jog → 10min CD</td><td class="mi">7.8</td></tr>
+          <tr><td class="day">Wed</td><td>55 min aerobic</td><td class="mi">6.5</td></tr>
+          <tr><td class="day">Thu</td><td>15min WU → 6×1000m VO2max, 2.5min jog → 10min CD</td><td class="mi">7.9</td></tr>
+          <tr class="rest"><td class="day">Fri</td><td>Full rest</td><td class="mi">0</td></tr>
+          <tr><td class="day">Sat</td><td>15min WU → 25min tempo → 10min CD</td><td class="mi">6.2</td></tr>
+          <tr><td class="day">Sun</td><td>100 min long run (Z1→Z2)</td><td class="mi">11.4</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <div class="note"><b>Progression rate:</b> weekly increase averages ~13–15%, slightly above the common "10% rule" — reasonable across a 4-week block, but scale back mid-block if recovery markers (resting HR, sleep, motivation) are trending the wrong way.</div>
+    <div class="note"><b>Quality build pattern:</b> pace and HR targets stay fixed all 4 weeks. Progress comes from accumulating more reps/time in each zone (3→4→4→5 threshold reps, 4→5→6→6 VO2max reps) — never from pushing paces faster.</div>
+    <div class="note"><b>After this block:</b> no down week is built in here. If continuing past Week 4, drop back to ~32–35 mi in Week 5 before building again.</div>
+  </footer>
+
+</div>
+</body>
+</html>
